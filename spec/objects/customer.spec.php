@@ -27,18 +27,18 @@ describe('Customer class', function () {
     $this->customer->setLevel($this->level);
 
     it('expects the customer object to have matching values', function() {
-      expect($this->customer->getId()) -> toBe($this->id);
-      expect($this->customer->getEmail()) -> toBe($this->email);
-      expect($this->customer->getPassword()) -> toBe($this->password);
-      expect($this->customer->getFirstName()) -> toBe($this->firstName);
-      expect($this->customer->getLastName()) -> toBe($this->lastName);
-      expect($this->customer->getAddress()) -> toBe($this->address);
-      expect($this->customer->getCity()) -> toBe($this->city);
-      expect($this->customer->getState()) -> toBe($this->state);
-      expect($this->customer->getZipcode()) -> toBe($this->zipcode);
-      expect($this->customer->getLevel()) -> toBe($this->level);
+      expect($this->customer->getId()) -> toEqual($this->id);
+      expect($this->customer->getEmail()) -> toEqual($this->email);
+      expect($this->customer->getPassword()) -> toEqual($this->password);
+      expect($this->customer->getFirstName()) -> toEqual($this->firstName);
+      expect($this->customer->getLastName()) -> toEqual($this->lastName);
+      expect($this->customer->getAddress()) -> toEqual($this->address);
+      expect($this->customer->getCity()) -> toEqual($this->city);
+      expect($this->customer->getState()) -> toEqual($this->state);
+      expect($this->customer->getZipcode()) -> toEqual($this->zipcode);
+      expect($this->customer->getLevel()) -> toEqual($this->level);
 
-      expect($this->customer->getLevelString()) -> toBe('customer');
+      expect($this->customer->getLevelString()) -> toEqual('customer');
     });
 
     it('expects the customer object -> valid() to return true', function () {
@@ -53,32 +53,32 @@ describe('Customer class', function () {
       // Set up customer object from createArray().
       $this->customer->createFromArray($jsonArray);
       // Test values.
-      expect($this->customer->getId()) -> toBe($this->id);
-      expect($this->customer->getEmail()) -> toBe($this->email);
-      expect($this->customer->getPassword()) -> toBe($this->password);
-      expect($this->customer->getFirstName()) -> toBe($this->firstName);
-      expect($this->customer->getLastName()) -> toBe($this->lastName);
-      expect($this->customer->getAddress()) -> toBe($this->address);
-      expect($this->customer->getCity()) -> toBe($this->city);
-      expect($this->customer->getState()) -> toBe($this->state);
-      expect($this->customer->getZipcode()) -> toBe($this->zipcode);
-      expect($this->customer->getLevel()) -> toBe($this->level);
+      expect($this->customer->getId()) -> toEqual($this->id);
+      expect($this->customer->getEmail()) -> toEqual($this->email);
+      expect($this->customer->getPassword()) -> toEqual($this->password);
+      expect($this->customer->getFirstName()) -> toEqual($this->firstName);
+      expect($this->customer->getLastName()) -> toEqual($this->lastName);
+      expect($this->customer->getAddress()) -> toEqual($this->address);
+      expect($this->customer->getCity()) -> toEqual($this->city);
+      expect($this->customer->getState()) -> toEqual($this->state);
+      expect($this->customer->getZipcode()) -> toEqual($this->zipcode);
+      expect($this->customer->getLevel()) -> toEqual($this->level);
     });
 
     it('expects the customer object -> toArray to return matching values', function () {
       $array = $this->customer->toArray();
       $this->customer->createFromArray($array);
       // Test values.
-      expect($this->customer->getId()) -> toBe($this->id);
-      expect($this->customer->getEmail()) -> toBe($this->email);
-      expect($this->customer->getPassword()) -> toBe($this->password);
-      expect($this->customer->getFirstName()) -> toBe($this->firstName);
-      expect($this->customer->getLastName()) -> toBe($this->lastName);
-      expect($this->customer->getAddress()) -> toBe($this->address);
-      expect($this->customer->getCity()) -> toBe($this->city);
-      expect($this->customer->getState()) -> toBe($this->state);
-      expect($this->customer->getZipcode()) -> toBe($this->zipcode);
-      expect($this->customer->getLevel()) -> toBe($this->level);
+      expect($this->customer->getId()) -> toEqual($this->id);
+      expect($this->customer->getEmail()) -> toEqual($this->email);
+      expect($this->customer->getPassword()) -> toEqual($this->password);
+      expect($this->customer->getFirstName()) -> toEqual($this->firstName);
+      expect($this->customer->getLastName()) -> toEqual($this->lastName);
+      expect($this->customer->getAddress()) -> toEqual($this->address);
+      expect($this->customer->getCity()) -> toEqual($this->city);
+      expect($this->customer->getState()) -> toEqual($this->state);
+      expect($this->customer->getZipcode()) -> toEqual($this->zipcode);
+      expect($this->customer->getLevel()) -> toEqual($this->level);
     });
   });
 
@@ -99,16 +99,16 @@ describe('Customer class', function () {
     $this->customer->createFromArray($this->array);
 
     it('expects the customer object to have matching values', function () {
-      expect($this->customer->getId()) -> toBe($this->id);
-      expect($this->customer->getEmail()) -> toBe($this->email);
-      expect($this->customer->getPassword()) -> toBe($this->password);
-      expect($this->customer->getFirstName()) -> toBe($this->firstName);
-      expect($this->customer->getLastName()) -> toBe($this->lastName);
-      expect($this->customer->getAddress()) -> toBe($this->address);
-      expect($this->customer->getCity()) -> toBe($this->city);
-      expect($this->customer->getState()) -> toBe($this->state);
-      expect($this->customer->getZipcode()) -> toBe($this->zipcode);
-      expect($this->customer->getLevel()) -> toBe($this->level);
+      expect($this->customer->getId()) -> toEqual($this->id);
+      expect($this->customer->getEmail()) -> toEqual($this->email);
+      expect($this->customer->getPassword()) -> toEqual($this->password);
+      expect($this->customer->getFirstName()) -> toEqual($this->firstName);
+      expect($this->customer->getLastName()) -> toEqual($this->lastName);
+      expect($this->customer->getAddress()) -> toEqual($this->address);
+      expect($this->customer->getCity()) -> toEqual($this->city);
+      expect($this->customer->getState()) -> toEqual($this->state);
+      expect($this->customer->getZipcode()) -> toEqual($this->zipcode);
+      expect($this->customer->getLevel()) -> toEqual($this->level);
     });
   });
 });
