@@ -12,7 +12,7 @@
     private $level; // -1: suspended, 0: customer, 1: admin,
 
 		public function getId () {
-			return $this->$id;
+			return $this->id;
 		}
     public function getEmail () {
       return $this->email;
@@ -43,7 +43,7 @@
     }
 
 		public function setId ($id) {
-			$this->$id = $id;
+			$this->id = $id;
 		}
     public function setEmail ($email) {
       $this->email = $email;
@@ -69,6 +69,9 @@
     public function setZipcode ($zipcode) {
       $this->zipcode = $zipcode;
     }
+    public function setLevel ($level) {
+      $this->level = $level;
+    }
 
     public function getFullName () {
       return $this->lastName . ", " . $this->firstName;
@@ -87,25 +90,25 @@
     }
 
     public function valid () {
-      if ( ! isset($this->getId()) )
+      if ( $this->getId() == NULL )
         return false;
-      if ( ! isset($this->getEmail()) )
+      if ( $this->getEmail() == NULL )
         return false;
-      if ( ! isset($this->getPassword()) )
+      if ( $this->getPassword() == NULL )
         return false;
-      if ( ! isset($this->getFirstName()) )
+      if ( $this->getFirstName() == NULL )
         return false;
-      if ( ! isset($this->getLastName()) )
+      if ( $this->getLastName() == NULL )
         return false;
-      if ( ! isset($this->getAddress()) )
+      if ( $this->getAddress() == NULL )
         return false;
-      if ( ! isset($this->getCity()) )
+      if ( $this->getCity() == NULL )
         return false;
-      if ( ! isset($this->getState()) )
+      if ( $this->getState() == NULL )
         return false;
-      if ( ! isset($this->getZipcode()) )
+      if ( $this->getZipcode() == NULL )
         return false;
-      if ( ! isset($this->getLevel()) )
+      if ( $this->getLevel() == NULL )
         return false;
       return true;
     }
