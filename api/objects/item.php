@@ -1,10 +1,10 @@
 <?php
 	class Item {
 		// (string)
-		private $name;
+		private $id;
 
 		// (string)
-		private $id;
+		private $name;
 
 		// (float)
 		private $price;
@@ -92,5 +92,41 @@
 				default: return;
 			}
 		}
+
+		public function valid () {
+			if ( ! isset($this->getId()) )
+				return false;
+		  if ( ! isset($this->getName()) )
+				return false;
+		  if ( ! isset($this->getPrice()) )
+				return false;
+		  if ( ! isset($this->getCategory()) )
+				return false;
+		  if ( ! isset($this->getFlavor()) )
+				return false;
+		  if ( ! isset($this->getUnit()) )
+				return false;
+			return true;
+		}
+
+		// Takes an associative array of item data and returns the class equivalent.
+		public function createFromArray ($array) {
+			$this->setId( $array['id'] );
+		  $this->setName( $array['name'] );
+		  $this->setPrice( $array['price'] );
+		  $this->setCategory( $array['category'] );
+		  $this->setFlavor( $array['flavor'] );
+		  $this->setUnit( $array['unit'] );
+		}
+
+    // Returns the object as an associative array.
+    public function toArray () {
+      return get_object_vars($this);
+    }
+
+    // Returns the object as a json string.
+    public function toJson () {
+      return json_encode(get_object_vars($this));
+    }
 	}
 ?>

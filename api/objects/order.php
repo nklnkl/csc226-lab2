@@ -1,5 +1,7 @@
 <?php
 	class Order {
+		private $id;
+
 		// Should be of type array.
 		private $items;
 
@@ -7,8 +9,13 @@
 
     private $shippingFee = 10;
 
-    // 0: new customer, 1: returning customer;
     private $customer;
+
+		private $newCustomer;
+
+		public function getId () {
+			return $this->id;
+		}
 
 		public function getItems () {
 			return $this->items;
@@ -21,6 +28,14 @@
     public function getCustomer () {
       return $this->customer;
     }
+
+    public function getNewCustomer () {
+      return $this->newCustomer;
+    }
+
+		public function setId ($id) {
+			$this->$id = $id;
+		}
 
 		public function setItems ($items) {
 			$this->items = items;
@@ -35,6 +50,10 @@
 
     public function setCustomer ($customer) {
       $this->customer = $customer;
+    }
+
+    public function setNewCustomer ($newCustomer) {
+      $this->newCustomer = $newCustomer;
     }
 
     public function removeItem ($index) {
@@ -72,7 +91,7 @@
 				$total -= (0.05 * $wet);
 
       // Add discount based on customer type.
-      switch ($this->customer->getType()) {
+      switch ($this->newCustomer) {
         case 0: // New customer.
           $total -= $total * 0.07;
           break;
@@ -96,5 +115,41 @@
     public function getTotal () {
       return $this->getSubtotal() + $this->getTax();
     }
+
+		public function valid () {
+			if ( ! isset($this->getId()) )
+				return false;
+			if ( ! isset($this->getItems()) )
+				return false;
+			if ( ! isset($this->getDate()) )
+				return false;
+			if ( ! isset($this->getShippingFee()) )
+				return false;
+			if ( ! isset($this->getCustomer()) )
+				return false;
+			if ( ! isset($this->getNewCustomer()) )
+				return false;
+			return true;
+		}
+
+		// Takes an associative array of item data and returns the class equivalent.
+		public function createFromArray ($array) {
+			$this->setId( $array['id'] );
+			$this->setName( $array['items'] );
+			$this->setPrice( $array['date'] );
+			$this->setCategory( $array['shippingFee'] );
+			$this->setFlavor( $array['customer'] );
+			$this->setUnit( $array['newCustomer'] );
+		}
+
+		// Returns the object as an associative array.
+		public function toArray () {
+			return get_object_vars($this);
+		}
+
+		// Returns the object as a json string.
+		public function toJson () {
+			return json_encode(get_object_vars($this));
+		}
 	}
 ?>
