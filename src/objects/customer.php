@@ -90,25 +90,25 @@
     }
 
     public function valid () {
-      if ( $this->getId() == NULL )
+      if ( $this->getId() === null )
         return false;
-      if ( $this->getEmail() == NULL )
+      if ( $this->getEmail() === null )
         return false;
-      if ( $this->getPassword() == NULL )
+      if ( $this->getPassword() === null )
         return false;
-      if ( $this->getFirstName() == NULL )
+      if ( $this->getFirstName() === null )
         return false;
-      if ( $this->getLastName() == NULL )
+      if ( $this->getLastName() === null )
         return false;
-      if ( $this->getAddress() == NULL )
+      if ( $this->getAddress() === null )
         return false;
-      if ( $this->getCity() == NULL )
+      if ( $this->getCity() === null )
         return false;
-      if ( $this->getState() == NULL )
+      if ( $this->getState() === null )
         return false;
-      if ( $this->getZipcode() == NULL )
+      if ( $this->getZipcode() === null )
         return false;
-      if ( $this->getLevel() == NULL )
+      if ( $this->getLevel() === null )
         return false;
       return true;
     }
