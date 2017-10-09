@@ -1,7 +1,7 @@
 [
   {
     "name": "KONG Plush Rosie the Rhino Squeaker Dog Toy",
-    "id": "1",
+    "id": 1,
     "price": 7.50,
     "category": 0,
     "flavor": "",
@@ -9,7 +9,7 @@
   },
   {
     "name": "KONG Squirrel Cat Nip Toy",
-    "id": "2",
+    "id": 2,
     "price": 7.50,
     "category": 0,
     "flavor": "",
@@ -17,7 +17,7 @@
   },
   {
     "name": "Blue Buffalo, Blue Wilderness Indoor Adult Cat Food, 11 pounds",
-    "id": "3",
+    "id": 3,
     "price": 33.99,
     "category": 1,
     "flavor": "Chicken",
@@ -25,7 +25,7 @@
   },
   {
     "name": "Nutro Max Kitten Food, 16 pounds",
-    "id": "4",
+    "id": 4,
     "price": 24.50,
     "category": 1,
     "flavor": "Roasted Chicken",
@@ -33,7 +33,7 @@
   },
   {
     "name": "Blue Buffalo, Blue Life Protection Formula Puppy Food, 30 pounds",
-    "id": "5",
+    "id": 5,
     "price": 45.99,
     "category": 1,
     "flavor": "Chicken & Brown Rice",
@@ -41,7 +41,7 @@
   },
   {
     "name": "Eukanuba Adult Maintenance Dog Food, 30 pounds",
-    "id": "6",
+    "id": 6,
     "price": 33.99,
     "category": 1,
     "flavor": "Lamb & Rice",
@@ -49,7 +49,7 @@
   },
   {
     "name": "Cesar Savory Delights Adult Dog Food, 1 can",
-    "id": "7",
+    "id": 7,
     "price": 0.75,
     "category": 2,
     "flavor": "",
@@ -57,7 +57,7 @@
   },
   {
     "name": "Fancy Feast Classic Adult Cat Food, 1 can",
-    "id": "8",
+    "id": 8,
     "price": 0.59,
     "category": 2,
     "flavor": "",
