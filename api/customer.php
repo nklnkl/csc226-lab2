@@ -52,7 +52,7 @@ function post () {
   $newCustomer->setCity( $data['city'] );
   $newCustomer->setState( $data['state'] );
   $newCustomer->setZipcode( $data['zipcode'] );
-  $newCustomer->setZipcode( 0 );
+  $newCustomer->setLevel( 0 );
 
   // Check if customer already exists.
   $list = getJson('customer');
