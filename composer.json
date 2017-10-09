@@ -1,0 +1,12 @@
+{
+    "name": "niko/csc226-lab2",
+    "authors": [
+        {
+            "name": "Niko Lagman",
+            "email": "Lagman.Niko@gmail.com"
+        }
+    ],
+    "require": {
+        "kahlan/kahlan": "^4.0"
+    }
+}
