@@ -24,7 +24,7 @@ function getJson ($resource, $id) {
 
 // Retrieves a json list and returns it as an associative array if id is not specified.
 // If the id is specified, it will return one document. If it finds nothing, this returns null.
-function getNewId ($resource, $id) {
+function getNewId ($resource) {
   $json = file_get_contents('./json/' . $resource . '.json');
   $json = json_decode($json, true);
 
