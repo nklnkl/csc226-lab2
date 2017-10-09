@@ -1,7 +1,5 @@
 <?php
 header('Content-type:application/json');
-
-require_once('objects/order.php');
 require_once('./json.php');
 
 /*
@@ -35,9 +33,12 @@ function get () {
 */
 function getItem () {
   $list = getJson('item');
-  foreach ($list as $item) {
-    if ($_GET['id'] == $item['id'])
-      exit(json_encode($item));
+  foreach ($list as $i) {
+    if ($_GET['id'] == $i['id']){
+      $item = new Item();
+      $item->createFromArray($item);
+      exit($item->toJson());
+    }
   }
   exit(http_response_code(404));
 }
