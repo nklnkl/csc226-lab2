@@ -24,15 +24,6 @@
 		 */
 		private $unit;
 
-		function Item ($name, $id, $price, $category, $flavor, $unit) {
-			$this->setName($name);
-			$this->setId($id);
-			$this->setPrice($price);
-			$this->setCategory($category);
-			$this->setFlavor($flavor);
-			$this->setUnit($unit);
-		}
-
 		public function getName () {
 			return $this->name;
 		}
@@ -94,17 +85,17 @@
 		}
 
 		public function valid () {
-			if ( ! isset($this->getId()) )
+			if ( $this->getId() === null )
 				return false;
-		  if ( ! isset($this->getName()) )
+		  if ( $this->getName() === null )
 				return false;
-		  if ( ! isset($this->getPrice()) )
+		  if ( $this->getPrice() === null )
 				return false;
-		  if ( ! isset($this->getCategory()) )
+		  if ( $this->getCategory() === null )
 				return false;
-		  if ( ! isset($this->getFlavor()) )
+		  if ( $this->getFlavor() === null )
 				return false;
-		  if ( ! isset($this->getUnit()) )
+		  if ( $this->getUnit() === null )
 				return false;
 			return true;
 		}
