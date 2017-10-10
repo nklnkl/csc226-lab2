@@ -1,6 +1,6 @@
 <?php
-require_once('src/objects/order.php');
-require_once('src/objects/item.php');
+require_once('api/objects/order.php');
+require_once('api/objects/item.php');
 
 describe('Order class', function () {
 

@@ -1,5 +1,5 @@
 <?php
-require_once('src/objects/customer.php');
+require_once('api/objects/customer.php');
 
 describe('Customer class', function () {
   $this->id = 1;
