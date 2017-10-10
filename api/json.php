@@ -46,7 +46,7 @@ function saveJson ($resource, $data) {
   array_push($json, $data->toArray());
 
   // Save associative array as json to json file.
-  file_put_contents('./json/' . $resource . '.json', json_encode($json));
+  file_put_contents('./json/' . $resource . '.json', json_encode($json, JSON_PRETTY_PRINT|JSON_NUMERIC_CHECK));
 }
 
 ?>
