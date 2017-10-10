@@ -1,16 +1,21 @@
 <?php
 	class Order {
+		// number id
 		private $id;
 
 		// Should be of type array.
-		private $items;
+		private $items = [];
 
+		// number (epoch)
 		private $date;
 
-    private $shippingFee = 10;
+		// number, 2 float
+    private $shippingFee = 10.00;
 
+		// the id of the customer.
     private $customer;
 
+		// number
 		private $newCustomer;
 
 		public function getId () {
@@ -25,6 +30,10 @@
 			return $this->date;
 		}
 
+		public function getShippingFee () {
+			return $this->shippingFee;
+		}
+
     public function getCustomer () {
       return $this->customer;
     }
@@ -34,18 +43,19 @@
     }
 
 		public function setId ($id) {
-			$this->$id = $id;
+			$this->id = $id;
 		}
 
 		public function setItems ($items) {
-			$this->items = items;
+			$this->items = $items;
 		}
 
 		public function setDate ($date) {
-			if ($date != null)
-				$this->date = $date;
-			else
-				$this->date = date('H:i, jS F Y');
+			$this->date = $date;
+		}
+
+		public function setShippingFee ($shippingFee) {
+			$this->shippingFee = $shippingFee;
 		}
 
     public function setCustomer ($customer) {
@@ -117,17 +127,17 @@
     }
 
 		public function valid () {
-			if ( ! isset($this->getId()) )
+			if ( $this->getId() === null )
 				return false;
-			if ( ! isset($this->getItems()) )
+			if ( $this->getItems() === null )
 				return false;
-			if ( ! isset($this->getDate()) )
+			if ( $this->getDate() === null )
 				return false;
-			if ( ! isset($this->getShippingFee()) )
+			if ( $this->getShippingFee() === null )
 				return false;
-			if ( ! isset($this->getCustomer()) )
+			if ( $this->getCustomer() === null )
 				return false;
-			if ( ! isset($this->getNewCustomer()) )
+			if ( $this->getNewCustomer() === null )
 				return false;
 			return true;
 		}
@@ -135,11 +145,11 @@
 		// Takes an associative array of item data and returns the class equivalent.
 		public function createFromArray ($array) {
 			$this->setId( $array['id'] );
-			$this->setName( $array['items'] );
-			$this->setPrice( $array['date'] );
-			$this->setCategory( $array['shippingFee'] );
-			$this->setFlavor( $array['customer'] );
-			$this->setUnit( $array['newCustomer'] );
+			$this->setItems( $array['items'] );
+			$this->setDate( $array['date'] );
+			$this->setShippingFee( $array['shippingFee'] );
+			$this->setCustomer( $array['customer'] );
+			$this->setNewCustomer( $array['newCustomer'] );
 		}
 
 		// Returns the object as an associative array.
