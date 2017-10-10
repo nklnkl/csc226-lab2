@@ -1,6 +1,7 @@
 <?php
 header('Content-type:application/json');
 require_once('./json.php');
+require_once('./objects/item.php');
 
 /*
   routes
@@ -36,7 +37,7 @@ function getItem () {
   foreach ($list as $i) {
     if ($_GET['id'] == $i['id']){
       $item = new Item();
-      $item->createFromArray($item);
+      $item->createFromArray($i);
       exit($item->toJson());
     }
   }
