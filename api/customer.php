@@ -55,7 +55,7 @@ function post () {
   $newCustomer->setLevel( 0 );
 
   // Check if customer already exists.
-  $list = getJson('customer', nulla);
+  $list = getJson('customer', null);
   foreach($list as $customer) {
     if ($customer['email'] == $newCustomer->getEmail())
       exit(http_response_code(409));
@@ -67,25 +67,20 @@ function post () {
 }
 
 function getCustomer () {
-  // Retrieve customer list.
-  $list = getJson('customer');
-
-  // Loop through list and check for queried email.
-  foreach ($list as $i) {
-    if ($_GET['id'] == $i['id']) {
-      $customer = new Customer();
-      $customer->createFromArray($i);
-      exit($customer->toJson());
-    }
+  // Retrieve customer.
+  $result = getJson('customer', $_GET['id']);
+  if ($result !== null) {
+    $customer = new Customer();
+    $customer->createFromArray($result);
+    exit($customer->toJson());
   }
-
   // Otherwise return not found.
   exit(http_response_code(404));
 }
 
 function getList () {
   // Retrieve customer list.
-  $list = getJson('customer');
+  $list = getJson('customer', null);
   exit(json_encode($list));
 }
 ?>
