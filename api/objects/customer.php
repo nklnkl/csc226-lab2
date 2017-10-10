@@ -20,6 +20,8 @@
     private $zipcode;
     // number
     private $level; // -1: suspended, 0: customer, 1: admin,
+    // session keys (string)
+    private $keys = [];
 
 		public function getId () {
 			return $this->id;
@@ -51,6 +53,9 @@
     public function getLevel () {
       return $this->level;
     }
+    public function getKeys () {
+      return $this->keys;
+    }
 
 		public function setId ($id) {
 			$this->id = $id;
@@ -81,6 +86,9 @@
     }
     public function setLevel ($level) {
       $this->level = $level;
+    }
+    public function setKeys ($keys) {
+      $this->keys = $keys;
     }
 
     public function getFullName () {
