@@ -28,12 +28,12 @@ function getNewId ($resource) {
   $json = file_get_contents('./json/' . $resource . '.json');
   $json = json_decode($json, true);
 
-  $highest = 1;
+  $highest = 0;
   foreach ($json as $item) {
     if ($item['id'] > $highest)
-      $highest = $item['id'] + 1;
+      $highest = $item['id'];
   }
-  return $highest;
+  return $highest + 1;
 }
 
 // Adds an entry to a json source. $data must have toArray() associative
