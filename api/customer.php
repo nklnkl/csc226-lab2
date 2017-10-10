@@ -72,10 +72,10 @@ function getCustomer () {
   $list = getJson('customer');
 
   // Loop through list and check for queried email.
-  foreach ($list as $customer) {
-    if ($_GET['id'] == $customer['id']) {
+  foreach ($list as $i) {
+    if ($_GET['id'] == $i['id']) {
       $customer = new Customer();
-      $customer->createFromArray($customer);
+      $customer->createFromArray($i);
       exit($customer->toJson());
     }
   }
