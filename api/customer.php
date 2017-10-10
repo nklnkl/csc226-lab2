@@ -55,15 +55,14 @@ function post () {
   $newCustomer->setLevel( 0 );
 
   // Check if customer already exists.
-  $list = getJson('customer');
+  $list = getJson('customer', nulla);
   foreach($list as $customer) {
     if ($customer['email'] == $newCustomer->getEmail())
       exit(http_response_code(409));
   }
 
-  // If not, add to list and save to json.
-  array_push($list, $customer);
-  saveJson('customer', $list);
+  // If not, save to json
+  saveJson('customer', $newCustomer);
   exit(http_response_code(200));
 }
 
