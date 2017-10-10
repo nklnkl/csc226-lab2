@@ -1,14 +1,24 @@
 <?php
   class Customer {
+    // number id
     private $id;
+    // string
     private $email;
+    // string
     private $password;
+    // string
     private $firstName;
+    // string
     private $lastName;
+    // string
     private $address;
+    // string
     private $city;
+    // string
     private $state;
+    // string
     private $zipcode;
+    // number
     private $level; // -1: suspended, 0: customer, 1: admin,
 
 		public function getId () {
