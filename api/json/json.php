@@ -20,8 +20,8 @@ class Json {
     if ($json == false)
       return 1;
 
-    $array = json_decode($json, true);
-    return $array;
+    $list = json_decode($json, true);
+    return $list;
   }
 
   /*
@@ -38,19 +38,19 @@ class Json {
   */
   public static function get ($resource, $id) {
     // Retrieve resource.
-    $array = self::retriveJson($resource);
+    $list = self::retriveJson($resource);
     // If resource is not availabe.
-    if ($array == 1) return 1;
+    if ($list == 1) return 1;
 
     // If no id is given, return list.
     if ($id === NULL)
-      return $array;
+      return $list;
     // Else if id is given.
     else {
       // Iterate through list and return it.
-      foreach ($array as $item) {
-        if ($item['id'] == $id)
-          return $item;
+      foreach ($list as $object) {
+        if ($object['id'] == $id)
+          return $object;
       }
       // If not found.
       return 2;
@@ -72,21 +72,21 @@ class Json {
   */
   public static function save ($resource, $data) {
     // Retrieve resource.
-    $array = self::retriveJson($resource);
+    $list = self::retriveJson($resource);
     // If resource is not availabe.
-    if ($array == 1) return 1;
+    if ($list == 1) return 1;
 
     // Iterate through list.
-    foreach($array as $i => $doc) {
+    foreach($list as $i => $object) {
       // If object with id already exists.
-      if ($doc['id'] == $data['id'])
+      if ($object['id'] == $data['id'])
         return 1;
     }
 
     // If there is no record, add to list
-    array_push($json, $data);
+    array_push($list, $data);
     // Save associative array as json to json file.
-    file_put_contents('../json/' . $resource . '.json', json_encode($json, JSON_PRETTY_PRINT|JSON_NUMERIC_CHECK));
+    file_put_contents('../json/' . $resource . '.json', json_encode($list, JSON_PRETTY_PRINT|JSON_NUMERIC_CHECK));
     return;
   }
 
@@ -105,17 +105,17 @@ class Json {
   */
   public static function update ($resource, $data) {
     // Retrieve resource.
-    $array = self::retriveJson($resource);
+    $list = self::retriveJson($resource);
     // If resource is not availabe.
-    if ($array == 1) return 1;
+    if ($list == 1) return 1;
 
     // Iterate through list.
-    foreach($json as $i => $doc) {
+    foreach($list as $i => $list) {
       // If an object with the given id exists, update the doc. (replace it)
-      if ($doc['id'] == $data['id']) {
-        $json[$i] = $data;
+      if ($list['id'] == $data['id']) {
+        $list[$i] = $data;
         // Save back list.
-        file_put_contents('../json/' . $resource . '.json', json_encode($json, JSON_PRETTY_PRINT|JSON_NUMERIC_CHECK));
+        file_put_contents('../json/' . $resource . '.json', json_encode($list, JSON_PRETTY_PRINT|JSON_NUMERIC_CHECK));
         return 0;
       }
     }
@@ -139,15 +139,15 @@ class Json {
   */
   public static function remove ($resource, $data) {
     // Retrieve resource.
-    $array = self::retriveJson($resource);
+    $list = self::retriveJson($resource);
     // If resource is not availabe.
-    if ($array == 1) return 1;
+    if ($list == 1) return 1;
 
     // Iterate through list.
-    foreach($json as $i => $doc) {
+    foreach($list as $i => $object) {
       // If an object with the given id exists, remove it.
-      if ($doc['id'] == $data['id']) {
-        array_splice($array, $i, 1);
+      if ($object['id'] == $data['id']) {
+        array_splice($list, $i, 1);
         return 0;
       }
     }
