@@ -67,14 +67,18 @@ class Json {
 
     return
       0 - save was succcessful
-      1 - failed, object with id already exists.
+      1 - resource list not found.
+      2 - failed, object with id already exists.
   */
   public static function save ($resource, $data) {
+    // Retrieve resource.
     $array = self::retriveJson($resource);
+    // If resource is not availabe.
+    if ($array == 1) return 1;
 
     // Iterate through list.
     foreach($array as $i => $doc) {
-      // If object with id already exists, return 1 (failed).
+      // If object with id already exists.
       if ($doc['id'] == $data['id'])
         return 1;
     }
@@ -96,10 +100,14 @@ class Json {
 
     return
       0 - save was succcessful
-      1 - failed, object with id does not exist.
+      1 - resource list not found.
+      2 - failed, object with id does not exist.
   */
   public static function update ($resource, $data) {
+    // Retrieve resource.
     $array = self::retriveJson($resource);
+    // If resource is not availabe.
+    if ($array == 1) return 1;
 
     // Iterate through list.
     foreach($json as $i => $doc) {
@@ -112,8 +120,40 @@ class Json {
       }
     }
 
-    // If object does not exists, return 1 error.
-    return 1;
+    // If object does not exists.
+    return 2;
+  }
+
+  /*
+    Takes an array (associative object) and removes it.
+    This is for existing data only.
+
+    parameters
+      $resource - name of the resource [account, item, order]
+      $data - associative array, must have a key for 'id' which must be unique.
+
+    return
+      0 - save was succcessful
+      1 - resource list not found.
+      2 - failed, object with id does not exist.
+  */
+  public static function remove ($resource, $data) {
+    // Retrieve resource.
+    $array = self::retriveJson($resource);
+    // If resource is not availabe.
+    if ($array == 1) return 1;
+
+    // Iterate through list.
+    foreach($json as $i => $doc) {
+      // If an object with the given id exists, remove it.
+      if ($doc['id'] == $data['id']) {
+        array_splice($array, $i, 1);
+        return 0;
+      }
+    }
+
+    // If object does not exists.
+    return 2;
   }
 }
 
