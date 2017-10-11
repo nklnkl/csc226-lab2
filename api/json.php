@@ -42,11 +42,24 @@ function saveJson ($resource, $data) {
   $json = file_get_contents('./json/' . $resource . '.json');
   $json = json_decode($json, true);
 
-  // Add to list, data must be turned into associative array.
-  array_push($json, $data->toArray());
+  // Check if data already has a record
+  foreach($json as $i => $doc) {
+    // If it does, do a replacement instead.
+    if ($doc['id'] == $data['id']) {
+      $json[$i] = $data;
+      // Save associative array as json to json file.
+      file_put_contents('./json/' . $resource . '.json', json_encode($json, JSON_PRETTY_PRINT|JSON_NUMERIC_CHECK));
+      return;
+    }
+  }
 
+  // If there is no record, add to list, data must be turned into associative array.
+  // It must also have a uniqueid.
+  $data['id'] = uniqid();
+  array_push($json, $data);
   // Save associative array as json to json file.
   file_put_contents('./json/' . $resource . '.json', json_encode($json, JSON_PRETTY_PRINT|JSON_NUMERIC_CHECK));
+  return;
 }
 
 ?>
