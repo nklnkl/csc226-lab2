@@ -26,7 +26,7 @@ describe('Order class', function () {
   array_push($this->items, $this->item2->toArray());
   $this->date = 1507593598;
   $this->shippingFee = 10;
-  $this->customer = 1;
+  $this->customer = uniqid();;
   $this->newCustomer = 0;
 
   describe('create from setter methods', function () {
