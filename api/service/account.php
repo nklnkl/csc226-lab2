@@ -36,5 +36,70 @@ class AccountService {
     else
       return $account->valid();
   }
+
+  /*
+    This will update an account's biographical details.
+    Both the $accountData (original) and $updateData (new) must have matching
+    ids for the update to take place.
+
+    parameters
+      $accountData - associative array (required) * ALL fields required for update.
+        - id
+        - email
+        - password
+        - firstName
+        - lastName
+        - address
+        - city
+        - state
+        - zipcode
+        - level
+        - keys
+
+      $accountData - associative array (required)
+        - id (required)
+        - firstName (optional)
+        - lastName (optional)
+        - address (optional)
+        - city (optional)
+        - state (optional)
+        - zipcode (optional)
+
+    return
+      associative array (account) - Succesful update.
+      1 - id does not match.
+  */
+  public static function update ($accountData, $updateData) {
+    $account = new Account();
+    $account->createFromArray($accountData);
+    $update = new Account();
+    $update->createFromArray($updateData);
+
+    // Must match id.
+    if ($account->getId() != $updateData->getId())
+      return 1;
+
+    if ($update->getFirstName() != null) {
+      $account->setFirstName( $update->getFirstName() );
+    }
+    if ($update->getLastName() != null) {
+      $account->setLastName( $update->getLastName() );
+    }
+    if ($update->getAddress() != null) {
+      $account->setAddress( $update->getAddress() );
+    }
+    if ($update->getCity() != null) {
+      $account->setCity( $update->getCity() );
+    }
+    if ($update->getState() != null) {
+      $account->setState( $update->getState() );
+    }
+    if ($update->getZipcode() != null) {
+      $account->setZipcode( $update->getZipcode() );
+    }
+
+    // Successful update.
+    return $account->toArray();
+  }
 }
 ?>
