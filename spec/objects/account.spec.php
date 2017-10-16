@@ -1,5 +1,5 @@
 <?php
-require_once('api/objects/account.php');
+require_once('api/object/account.php');
 
 describe('Account class', function () {
   $this->id = uniqid();
@@ -38,11 +38,11 @@ describe('Account class', function () {
       expect($this->account->getZipcode()) -> toEqual($this->zipcode);
       expect($this->account->getLevel()) -> toEqual($this->level);
 
-      expect($this->account->getLevelString()) -> toEqual('account');
+      expect($this->account->getLevelString()) -> toEqual('customer');
     });
 
     it('expects the account object -> valid() to return true', function () {
-      expect($this->account->valid()) -> toEqual(true);
+      expect($this->account->valid()) -> toEqual(0);
     });
 
     it('expects the account object -> toJson to return matching values', function () {

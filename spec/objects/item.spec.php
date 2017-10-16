@@ -1,5 +1,5 @@
 <?php
-require_once('api/objects/item.php');
+require_once('api/object/item.php');
 
 describe('Item class', function () {
 
