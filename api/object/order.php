@@ -126,20 +126,31 @@
       return $this->getSubtotal() + $this->getTax();
     }
 
+		/*
+      Checks if the this order object is valid, meaning not all fields are
+      filled out.
+			0 - All fields are filled out, valid.
+			1 - Missing id.
+			2 - Missing items.
+			3 - Missing date.
+			4 - Missing shipping fee.
+			5 - Missing customer.
+			6 - Missing new customer.
+		*/
 		public function valid () {
 			if ( $this->getId() === null )
-				return false;
+				return 1;
 			if ( $this->getItems() === null )
-				return false;
+				return 2;
 			if ( $this->getDate() === null )
-				return false;
+				return 3;
 			if ( $this->getShippingFee() === null )
-				return false;
+				return 4;
 			if ( $this->getCustomer() === null )
-				return false;
+				return 5;
 			if ( $this->getNewCustomer() === null )
-				return false;
-			return true;
+				return 6;
+			return 0;
 		}
 
 		// Takes an associative array of item data and returns the class equivalent.
