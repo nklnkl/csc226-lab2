@@ -34,7 +34,8 @@ class Json {
 
     return
       $array - a resource list is found and is being returned.
-      1 - resource list not found.
+      1 - resource list not found, internal server error.
+      2 - resource object not found, client error.
   */
   public static function get ($resource, $id) {
     // Retrieve resource.
@@ -80,14 +81,14 @@ class Json {
     foreach($list as $i => $object) {
       // If object with id already exists.
       if ($object['id'] == $data['id'])
-        return 1;
+        return 2;
     }
 
     // If there is no record, add to list
     array_push($list, $data);
     // Save associative array as json to json file.
     file_put_contents('../json/' . $resource . '.json', json_encode($list, JSON_PRETTY_PRINT|JSON_NUMERIC_CHECK));
-    return;
+    return 0;
   }
 
   /*
@@ -133,7 +134,7 @@ class Json {
       $data - associative array, must have a key for 'id' which must be unique.
 
     return
-      0 - save was succcessful
+      0 - removal was succcessful
       1 - resource list not found.
       2 - failed, object with id does not exist.
   */
