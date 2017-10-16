@@ -84,20 +84,31 @@
 			}
 		}
 
+		/*
+      Checks if the this item object is valid, meaning not all fields are
+      filled out.
+			0 - All fields are filled out, valid.
+			1 - Missing id.
+			2 - Missing name.
+			3 - Missing price.
+			4 - Missing category.
+			5 - Missing flavor.
+			6 - Missing unit.
+		*/
 		public function valid () {
 			if ( $this->getId() === null )
-				return false;
+				return 1;
 		  if ( $this->getName() === null )
-				return false;
+				return 2;
 		  if ( $this->getPrice() === null )
-				return false;
+				return 3;
 		  if ( $this->getCategory() === null )
-				return false;
+				return 4;
 		  if ( $this->getFlavor() === null )
-				return false;
+				return 5;
 		  if ( $this->getUnit() === null )
-				return false;
-			return true;
+				return 6;
+			return 0;
 		}
 
 		// Takes an associative array of item data and returns the class equivalent.
