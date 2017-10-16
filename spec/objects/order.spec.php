@@ -50,7 +50,7 @@ describe('Order class', function () {
     });
 
     it('expects the order object -> valid() to return true', function () {
-      expect($this->order->valid()) -> toEqual(true);
+      expect($this->order->valid()) -> toEqual(0);
     });
 
     it('expects the order object -> toJson to return matching values', function () {

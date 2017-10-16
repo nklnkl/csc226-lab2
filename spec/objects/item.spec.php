@@ -39,7 +39,7 @@ describe('Item class', function () {
     });
 
     it('expects the item object -> valid() to return true', function () {
-      expect($this->item->valid()) -> toEqual(true);
+      expect($this->item->valid()) -> toEqual(0);
     });
 
     it('expects the item object -> toJson to return matching values', function () {
