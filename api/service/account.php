@@ -101,5 +101,123 @@ class AccountService {
     // Successful update.
     return $account->toArray();
   }
+
+  /*
+    This updates the email of an account.
+
+    parameters
+      $accountData - associative array (required) * ALL fields required for update.
+        - id
+        - email
+        - password
+        - firstName
+        - lastName
+        - address
+        - city
+        - state
+        - zipcode
+        - level
+        - keys
+      $email - string - the email which the account will be set to.
+
+    return
+      $account - update was successful.
+      1 - email requested is invalid.
+  */
+  public static function updateEmail ($accountData, $email) {
+
+    // Validate email.
+    if (filter_var($email, FILTER_VALIDATE_EMAIL))
+      return 1;
+
+    $account = new Account();
+    $account->createFromArray($accountData);
+    $account->setEmail($email);
+    return $account;
+  }
+
+  /*
+    This updates the password of an account.
+
+    parameters
+      $accountData - associative array (required) * ALL fields required for update.
+        - id
+        - email
+        - password
+        - firstName
+        - lastName
+        - address
+        - city
+        - state
+        - zipcode
+        - level
+        - keys
+      $password - string - the password which the account will be set to.
+        The password must match the following requirements.
+          - must be at least 6 characters in length and no more than 12 characters
+          - must contain at least 1 regular character.
+          - must contain at least 1 number.
+
+    return
+      $account - update was successful.
+      1 - password too short.
+      2 - password too long.
+      3 - password does not contain at least 1 regular character.
+      4 - password does not contain at least 1 number.
+  */
+  public static function updatePassword ($accountData, $password) {
+
+    // Validate password length.
+    if ( strlen($password) < 6 )
+      return 1;
+    // Validate password length.
+    if ( strlen($password) > 12 )
+      return 2;
+    // Validate password, contains at least 1 character
+    if ( preg_match('/[a-zA-Z]/', $password))
+      return 3;
+    // Validate password, contains at least 1 character
+    if ( preg_match('/\d/', $password))
+      return 4;
+
+    $account = new Account();
+    $account->createFromArray($accountData);
+    $account->setPassword($password);
+    return $account;
+  }
+
+  /*
+    This updates the level of an account.
+
+    parameters
+      $accountData - associative array (required) * ALL fields required for update.
+        - id
+        - email
+        - password
+        - firstName
+        - lastName
+        - address
+        - city
+        - state
+        - zipcode
+        - level
+        - keys
+      $level - integer - the level which the account will be set to.
+
+    return
+      $account - update was successful.
+      1 - level requested is invalid.
+  */
+  public static function updateLevel ($accountData, $level) {
+
+    // If the level requested is either less than -1 or greater than 1.
+    if ($level < -1 || $level > 1)
+      return 1;
+
+    $account = new Account();
+    $account->createFromArray($accountData);
+    $account->setLevel($level);
+    return $account;
+  }
 }
 ?>
