@@ -2,72 +2,90 @@
 // Object
 require_once('../object/account.php');
 
-// Service
-require_once('../json/account.php');
-
 class Auth {
 
   /*
-    This will take a user's provided email and password to provide a session key.
-    If the email and password find a match, a session key is returned.
+    This will take a user's provided password and accountData (pre-queried)
+    If the password matches the account, a new session key is added to the account.
 
     parameters
-      $email *required
+      $accountData *required
       $password *required
 
     return
-      string - the session key which can be used for future authorization.
-      1 - account list not found, internal server error.
-      2 - account not found, client error.
-      3 - given password does not match, client error.
+      $account (associative array) - the account with a newly added key.
+      1 - given password does not match, client error.
   */
-  public static function authenticate ($email, $password) {
-    $accountData = AccountJson::getByEmail($email);
-
-    // If the account list was not found.
-    if ($accountData == 1)
-      return 1;
-    // If the account was not found.
-    if ($accountData == 2)
-      return 2;
-
+  public static function authenticate ($accountData, $password) {
     // Create account instance from account data.
     $account = new Account();
     $account->createFromArray($accountData);
 
     // If the password does not match.
     if ($account->getPassword() != $password)
-      return 3;
+      return 1;
 
     // Generate session key.
     $key = uniqid();
-    return $key;
+    // Retrieve keys.
+    $keys = $account->getKeys();
+    // Add new key to keys.
+    array_push($keys, $key);
+    // Set new keys.
+    $account->setKeys($keys);
+
+    return $account->toArray();
   }
 
   /*
-    This will take a user's provided id and session key to find a match to authorize
-    a session.
+    This will take a user's provided session key and accountData (pre-queried)
+    If the key matches the account, the session key is removed from the account.
 
     parameters
-      $email *required
-      $password *required
+      $accountData *required
+      $key *required
 
     return
-      0 - session key is valid
-      1 - account list not found, internal server error.
-      2 - account not found or invalid key, client error.
-      3 - given key does not match, client error.
+      $account (associative array) - the account with the key removed.
+      1 - given key does not match, client error.
   */
-  public static function authorize ($id, $key) {
-    $accountData = AccountJson::get($id);
+  public static function deauthenticate ($accountData, $key) {
+    // Create account instance from account data.
+    $account = new Account();
+    $account->createFromArray($accountData);
 
-    // If account list was not found.
-    if ($accountData == 1)
-      return 1;
-    // If account was not found.
-    if ($accountData == 2)
-      return 2;
+    // Retrieve session keys from account.
+    $keys = $account->getKeys();
+    // Iterate through keys to find matching session key.
+    foreach ($keys as $i => $k) {
+      // If a match was found.
+      if ($k == $key) {
+        // Remove key
+        array_splice($keys, $i, 1);
+        // Set keys.
+        $account->setKeys($keys);
+        // Return account data.
+        return $account->toArray();
+      }
+    }
 
+    // If a match was never found.
+    return 1;
+  }
+
+  /*
+    This will take a user's provided key and accountData (pre-queried)
+    If the key matches the account, the authorization is valid.
+
+    parameters
+      $accountData *required
+      $key *required
+
+    return
+      0 - the authorization is valid.
+      1 - given key does not match, client error.
+  */
+  public static function authorize ($accountData, $key) {
     // Create account instance from account data.
     $account = new Account();
     $account->createFromArray($accountData);
@@ -82,7 +100,7 @@ class Auth {
     }
 
     // If a match was never found.
-    return 2;
+    return 1;
   }
 }
 ?>
