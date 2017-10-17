@@ -3,19 +3,22 @@ header('Content-type:application/json');
 require_once('./json.php');
 require_once('./http.php');
 
-// Objects
+// Object
 require_once('./object/account.php');
 
-// Services
+// Service
 require_once('./service/account.php');
 
-// Endpoints
+// Database
+require_once('./json/account.php');
+
+// Request method router.
 switch ($_SERVER['REQUEST_METHOD']) {
-  // retrieve customer(s)
+  // retrieve account(s)
   case 'GET':
     get();
     break;
-  // register customer(s)
+  // register account(s)
   case 'POST';
     post();
     break;
@@ -25,30 +28,103 @@ switch ($_SERVER['REQUEST_METHOD']) {
 }
 
 function post () {
-  $account = AccountService::register(getJsonPost());
-  if (!is_array($account)) {
-    $response = [];
+  $response = [];
+  $response['message'] = '';
+  $response['status'] = 500;
 
-    if ($account == 1 || $account == 10 || $account == 11 )
-      $response['status'] = 500;
-    else
-      $response['status'] = 406;
+  // Get user submitted data.
+  $accountData = HTTP::getJsonPost();
 
-    $response['message'] = $account;
+  // Process account data.
+  $registerResult = AccountService::register($accountData);
+  if ($registerResult != 0) {
+    switch ($registerResult) {
+      case 1:
+        $response['message'] = 'The account does not have a valid id. This is a server error';
+        $response['status'] = 500;
+        break;
+      case 2:
+        $response['message'] = 'You did not provide an email! Please fix and try again.';
+        $response['status'] = 400;
+        break;
+      case 3:
+        $response['message'] = 'You did not provide a password! Please fix and try again.';
+        $response['status'] = 400;
+        break;
+      case 4:
+        $response['message'] = 'You did not provide a first name! Please fix and try again.';
+        $response['status'] = 400;
+        break;
+      case 5:
+        $response['message'] = 'You did not provide a last name! Please fix and try again.';
+        $response['status'] = 400;
+        break;
+      case 6:
+        $response['message'] = 'You did not provide an address! Please fix and try again.';
+        $response['status'] = 400;
+        break;
+      case 7:
+        $response['message'] = 'You did not provide a city! Please fix and try again.';
+        $response['status'] = 400;
+        break;
+      case 8:
+        $response['message'] = 'You did not provide a state! Please fix and try again.';
+        $response['status'] = 400;
+        break;
+      case 9:
+        $response['message'] = 'You did not provide a zipcode! Please fix and try again.';
+        $response['status'] = 400;
+        break;
+      case 10:
+        $response['message'] = 'The account does not have a valid account level. This is a server error';
+        $response['status'] = 500;
+        break;
+      case 11:
+        $response['message'] = 'The account does not have keys initialized. This is a server error';
+        $response['status'] = 500;
+        break;
+      default:
+        $response['message'] = 'An internal server error has occured. A team of monkey ninjas was dispatched to fix it. Try again later.';
+        $response['status'] = 500;
+    }
+    http_response_code($response['status']);
+    exit(json_encode($response));
   }
 
+  // Save account data
+  $dbResult = AccountJson::save($accountData);
+  if ($dbResult != 0) {
+    switch ($dbResult) {
+      case 1:
+        $response['message'] = 'An internal server error has occured. A team of monkey ninjas was dispatched to fix it. Try again later.';
+        $response['status'] = 500;
+        break;
+      case 2:
+        $response['message'] = 'The email address is already used! Please fix and try again.';
+        $response['status'] = 400;
+        break;
+      case 3:
+        $response['message'] = 'An internal server error has occured. A team of monkey ninjas was dispatched to fix it. Try again later.';
+        $response['status'] = 500;
+        break;
+    }
+    http_response_code($response['status']);
+    exit(json_encode($response));
+  }
 
-  exit(http_response_code(200));
+  http_response_code(200);
+  $response['message'] = 'You signed up! Congrats! You can now log in.';
+  exit(json_encode($response));
 }
 
-// retrieve customer(s)
+// retrieve account(s)
 function get () {
   switch ( count($_GET) ) {
-    // retrieve customers list
+    // retrieve accounts list
     case 0:
       getList();
       break;
-    // retrieve customer by id
+    // retrieve account by id
     case 1:
       getCustomer();
       break;
@@ -57,24 +133,21 @@ function get () {
   }
 }
 
-/*
-  end points
-*/
 function getCustomer () {
-  // Retrieve customer.
-  $result = getJson('customer', $_GET['id']);
+  // Retrieve account.
+  $result = getJson('account', $_GET['id']);
   if ($result !== null) {
-    $customer = new Customer();
-    $customer->createFromArray($result);
-    exit($customer->toJson());
+    $account = new Customer();
+    $account->createFromArray($result);
+    exit($account->toJson());
   }
   // Otherwise return not found.
   exit(http_response_code(404));
 }
 
 function getList () {
-  // Retrieve customer list.
-  $list = getJson('customer', null);
+  // Retrieve account list.
+  $list = getJson('account', null);
   exit(json_encode($list));
 }
 ?>
