@@ -1,7 +1,7 @@
 <?php
 require_once('api/object/account.php');
 
-describe('Account class', function () {
+describe('Account object', function () {
   $this->id = uniqid();
   $this->email = 'user@test.com';
   $this->password = 'testPassword';
