@@ -22,10 +22,21 @@ class AccountService {
         When an object/associative array is returned, this means the account object
         was successfully created (volatile).
       integer
-        When an integer is returned, this means that the account is missing data.
+        When an integer is returned, this means that the account is missing data or invalid.
         Refer to Account.valid() for an explanation of missing information..
   */
   public static function register ($data) {
+
+    // If email is invalid.
+    // If the email is invalid.
+    if (!self::validateEmail($accountData['email']))
+      return 2;
+
+    // If the password is invalid.
+    if (self::validatePassword($password) != 0)
+      return 3;
+
+
     // Set default fields.
     $data['level'] = 0;
     $data['id'] = uniqid();
@@ -131,8 +142,8 @@ class AccountService {
   */
   public static function updateEmail ($accountData, $email) {
 
-    // Validate email.
-    if (filter_var($email, FILTER_VALIDATE_EMAIL))
+    // If the email is invalid.
+    if (!self::validateEmail($accountData['email']))
       return 1;
 
     $account = new Account();
@@ -172,18 +183,9 @@ class AccountService {
   */
   public static function updatePassword ($accountData, $password) {
 
-    // Validate password length.
-    if ( strlen($password) < 6 )
-      return 1;
-    // Validate password length.
-    if ( strlen($password) > 12 )
-      return 2;
-    // Validate password, contains at least 1 character
-    if ( preg_match('/[a-zA-Z]/', $password))
-      return 3;
-    // Validate password, contains at least 1 character
-    if ( preg_match('/\d/', $password))
-      return 4;
+    $validate = self::validatePassword($password);
+    if ($validate != 0)
+      return validate;
 
     $account = new Account();
     $account->createFromArray($accountData);
@@ -223,6 +225,46 @@ class AccountService {
     $account->createFromArray($accountData);
     $account->setLevel($level);
     return $account->toArray();
+  }
+
+  /*
+    This validates an email address.
+
+    return
+      true - valid email format
+      false - invalid email format
+  */
+  public static function validateEmail ($email) {
+    if (filter_var($email, FILTER_VALIDATE_EMAIL))
+      return true;
+    else
+      return false;
+  }
+
+  /*
+    This validates a password.
+
+    return
+      0 - password is valid
+      1 - password is too short
+      2 - password is too long
+      3 - password does not contain at least 1 character
+      4 - password does not contain at least 1 digit
+  */
+  public static function validatePassword ($password) {
+    // Validate password length.
+    if ( strlen($password) < 6 )
+      return 1;
+    // Validate password length.
+    if ( strlen($password) > 12 )
+      return 2;
+    // Validate password, contains at least 1 character
+    if ( preg_match('/[a-zA-Z]/', $password))
+      return 3;
+    // Validate password, contains at least 1 digit
+    if ( preg_match('/\d/', $password))
+      return 4;
+    return 0;
   }
 }
 ?>
