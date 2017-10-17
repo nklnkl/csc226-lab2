@@ -31,6 +31,7 @@ class Auth {
     if ($accountData == 2)
       return 2;
 
+    // Create account instance from account data.
     $account = new Account();
     $account->createFromArray($accountData);
 
@@ -67,6 +68,7 @@ class Auth {
     if ($accountData == 2)
       return 2;
 
+    // Create account instance from account data.
     $account = new Account();
     $account->createFromArray($accountData);
 
