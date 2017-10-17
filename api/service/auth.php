@@ -84,11 +84,51 @@ class Auth {
     return
       0 - the authorization is valid.
       1 - given key does not match, client error.
+      2 - user is suspended.
   */
   public static function authorize ($accountData, $key) {
     // Create account instance from account data.
     $account = new Account();
     $account->createFromArray($accountData);
+
+    // If the user is suspended
+    if ($account->getLevel() == -1)
+      return 2;
+
+    // Retrieve session keys from account.
+    $keys = $account->getKeys();
+    // Iterate through keys to find matching session key.
+    foreach ($keys as $k) {
+      // If a match was found.
+      if ($k == $key)
+        return 0;
+    }
+
+    // If a match was never found.
+    return 1;
+  }
+
+  /*
+    This will take a user's provided key and accountData (pre-queried)
+    If the key matches the account, and is admin, the authorization is valid.
+
+    parameters
+      $accountData *required
+      $key *required
+
+    return
+      0 - the authorization is valid.
+      1 - given key does not match, client error.
+      2 - user is not administrator.
+  */
+  public static function authorizeAdmin ($accountData, $key) {
+    // Create account instance from account data.
+    $account = new Account();
+    $account->createFromArray($accountData);
+
+    // If the user is not admin.
+    if ($account->getLevel() != 1)
+      return 2;
 
     // Retrieve session keys from account.
     $keys = $account->getKeys();
