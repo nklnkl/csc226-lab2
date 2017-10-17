@@ -1,5 +1,5 @@
 <?php
-require_once('../objects/account.php');
+require_once('../object/account.php');
 
 class AccountService {
   /*
