@@ -93,7 +93,7 @@ class AccountJson {
   */
   public static function save ($newAccount) {
     // Retrieve account resources.
-    $accounts = Json::save('account', null);
+    $accounts = Json::get('account', null);
 
     // If account resource is not avaiable, internal server error.
     if ($accounts == 1)
@@ -107,7 +107,7 @@ class AccountJson {
     }
 
     // If unique, save it.
-    $save = Json::saveJson('account', $newAccount);
+    $save = Json::save('account', $newAccount);
 
     // If id already exists, internal error.
     if ($save == 2)
