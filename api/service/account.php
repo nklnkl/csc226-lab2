@@ -133,7 +133,7 @@ class AccountService {
     $account = new Account();
     $account->createFromArray($accountData);
     $account->setEmail($email);
-    return $account;
+    return $account->toArray();
   }
 
   /*
@@ -183,7 +183,7 @@ class AccountService {
     $account = new Account();
     $account->createFromArray($accountData);
     $account->setPassword($password);
-    return $account;
+    return $account->toArray();
   }
 
   /*
@@ -217,7 +217,7 @@ class AccountService {
     $account = new Account();
     $account->createFromArray($accountData);
     $account->setLevel($level);
-    return $account;
+    return $account->toArray();
   }
 }
 ?>
