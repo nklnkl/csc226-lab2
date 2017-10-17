@@ -1,4 +1,4 @@
-<?
+<?php
 
 /*
   This class strictly deals with HTTP requests.
