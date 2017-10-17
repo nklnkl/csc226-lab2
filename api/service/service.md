@@ -7,3 +7,5 @@
   - Services make minimal use of associative arrays as objects. Rather they
     transform given associative arrays into Class objects and use the methods
     set by the class.
+  - Services do not assume the applications using them, are aware of Object classes,
+    therefore any data objects returned by a service class must be associative arrays.
