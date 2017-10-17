@@ -36,7 +36,7 @@ function post () {
 
   // Process account data.
   $registerResult = AccountService::register($accountData);
-  if ($registerResult != 0) {
+  if ( gettype($registerResult) != 'array' ) {
     switch ($registerResult) {
       case 1:
         $response['message'] = 'The account does not have a valid id. This is a server error';
@@ -87,11 +87,13 @@ function post () {
         $response['status'] = 500;
     }
     http_response_code($response['status']);
+    $response['level'] = 'service';
+    $response['code'] = $registerResult;
     exit(json_encode($response));
   }
 
   // Save account data
-  $dbResult = AccountJson::save($accountData);
+  $dbResult = AccountJson::save($registerResult);
   if ($dbResult != 0) {
     switch ($dbResult) {
       case 1:
@@ -108,6 +110,8 @@ function post () {
         break;
     }
     http_response_code($response['status']);
+    $response['level'] = 'database';
+    $response['code'] = $dbResult;
     exit(json_encode($response));
   }
 
