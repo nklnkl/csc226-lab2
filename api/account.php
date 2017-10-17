@@ -1,16 +1,15 @@
 <?php
 header('Content-type:application/json');
-require_once('./json.php');
-require_once('./http.php');
 
 // Object
-require_once('./object/account.php');
+require_once(dirname(__FILE__) . '/object/account.php');
 
 // Service
-require_once('./service/account.php');
+require_once(dirname(__FILE__) . '/service/http.php');
+require_once(dirname(__FILE__) . '/service/account.php');
 
 // Database
-require_once('./json/account.php');
+require_once(dirname(__FILE__) . '/json/account.php');
 
 // Request method router.
 switch ($_SERVER['REQUEST_METHOD']) {

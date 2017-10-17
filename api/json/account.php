@@ -1,6 +1,6 @@
 <?php
 // Service
-require_once('./json.php');
+require_once(dirname(__FILE__) . '/json.php');
 
 class AccountJson {
 

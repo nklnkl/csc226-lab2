@@ -1,5 +1,5 @@
 <?php
-require_once('../object/account.php');
+require_once(dirname(__FILE__) . '/../object/account.php');
 
 class AccountService {
   /*
