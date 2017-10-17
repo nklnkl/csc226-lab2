@@ -26,10 +26,13 @@ class AccountService {
         Refer to Account.valid() for an explanation of missing information..
   */
   public static function register ($data) {
+    // Set default fields.
     $data['level'] = 0;
     $data['id'] = uniqid();
     $data['keys'] = [];
-    
+    // Hash password
+    $data['password'] = hash('sha512', $data['password']);
+
     $account = new Account();
     $account->createFromArray($data);
 
