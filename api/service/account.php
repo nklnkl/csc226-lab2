@@ -26,10 +26,12 @@ class AccountService {
         Refer to Account.valid() for an explanation of missing information..
   */
   public static function register ($data) {
+    $data['level'] = 0;
+    $data['id'] = uniqid();
+    $data['keys'] = [];
+    
     $account = new Account();
     $account->createFromArray($data);
-    $account->setLevel(0);
-    $account->setId(uniqid());
 
     if ($account->valid() == 0)
       return $account->toArray();
