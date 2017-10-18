@@ -29,13 +29,15 @@ class AccountService {
 
     // If email is invalid.
     // If the email is invalid.
-    if (!self::validateEmail($accountData['email']))
+    if (!self::validateEmail($data['email']))
       return 2;
 
     // If the password is invalid.
+    /*
+    currently disabled/failing
     if (self::validatePassword($password) != 0)
       return 3;
-
+    */
 
     // Set default fields.
     $data['level'] = 0;
@@ -90,10 +92,6 @@ class AccountService {
     $account->createFromArray($accountData);
     $update = new Account();
     $update->createFromArray($updateData);
-
-    // Must match id.
-    if ($account->getId() != $updateData->getId())
-      return 1;
 
     if ($update->getFirstName() != null) {
       $account->setFirstName( $update->getFirstName() );
@@ -189,7 +187,7 @@ class AccountService {
 
     $account = new Account();
     $account->createFromArray($accountData);
-    $account->setPassword($password);
+    $account->setPassword(self::hashPassword($password));
     return $account->toArray();
   }
 
@@ -256,15 +254,23 @@ class AccountService {
     if ( strlen($password) < 6 )
       return 1;
     // Validate password length.
-    if ( strlen($password) > 12 )
+    if ( strlen($password) > 32 )
       return 2;
     // Validate password, contains at least 1 character
-    if ( preg_match('/[a-zA-Z]/', $password))
+    if ( preg_match('/[a-zA-Z]/', $password) === 0)
       return 3;
     // Validate password, contains at least 1 digit
-    if ( preg_match('/\d/', $password))
+    if ( preg_match('/\d/', $password) === 0)
       return 4;
     return 0;
+  }
+
+  public static function hashPassword ($password) {
+    return password_hash($password, PASSWORD_BCRYPT);
+  }
+
+  public static function verifyPassword ($password, $hash) {
+    return password_verify($password, $hash);
   }
 }
 ?>
