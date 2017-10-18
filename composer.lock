@@ -4,20 +4,65 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "6278bb81f01b288df21e22a5538759ea",
+    "content-hash": "9c62437ca45556abd949550a0e1bcea2",
     "packages": [
         {
-            "name": "kahlan/kahlan",
-            "version": "4.0.2",
+            "name": "bjeavons/zxcvbn-php",
+            "version": "0.3.0",
             "source": {
                 "type": "git",
-                "url": "https://github.com/kahlan/kahlan.git",
-                "reference": "eeb5fed5042e91d66a434d90fec237e1a552474f"
+                "url": "https://github.com/bjeavons/zxcvbn-php.git",
+                "reference": "331a88932d1a399c989967d3399a4a40eb182fd5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kahlan/kahlan/zipball/eeb5fed5042e91d66a434d90fec237e1a552474f",
-                "reference": "eeb5fed5042e91d66a434d90fec237e1a552474f",
+                "url": "https://api.github.com/repos/bjeavons/zxcvbn-php/zipball/331a88932d1a399c989967d3399a4a40eb182fd5",
+                "reference": "331a88932d1a399c989967d3399a4a40eb182fd5",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^5.3 || ^7.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "*",
+                "satooshi/php-coveralls": "*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "ZxcvbnPhp\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "See contributors",
+                    "homepage": "https://github.com/bjeavons/zxcvbn-php"
+                }
+            ],
+            "description": "Realistic password strength estimation PHP library based on Zxcvbn JS",
+            "homepage": "https://github.com/bjeavons/zxcvbn-php",
+            "keywords": [
+                "password",
+                "zxcvbn"
+            ],
+            "time": "2017-01-06T15:43:33+00:00"
+        },
+        {
+            "name": "kahlan/kahlan",
+            "version": "4.0.5",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/kahlan/kahlan.git",
+                "reference": "f28d97e268c1fd5054280932b880e06417eddb6f"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/kahlan/kahlan/zipball/f28d97e268c1fd5054280932b880e06417eddb6f",
+                "reference": "f28d97e268c1fd5054280932b880e06417eddb6f",
                 "shasum": ""
             },
             "require": {
@@ -58,7 +103,7 @@
                 "testing",
                 "unit test"
             ],
-            "time": "2017-10-06T23:13:08+00:00"
+            "time": "2017-10-14T15:51:22+00:00"
         }
     ],
     "packages-dev": [],

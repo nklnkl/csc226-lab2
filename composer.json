@@ -7,6 +7,7 @@
         }
     ],
     "require": {
-        "kahlan/kahlan": "^4.0"
+        "kahlan/kahlan": "^4.0",
+        "bjeavons/zxcvbn-php": "^0.3"
     }
 }
