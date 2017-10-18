@@ -181,9 +181,12 @@ class AccountService {
   */
   public static function updatePassword ($accountData, $password) {
 
+    /*
+    currently disabled/failing
     $validate = self::validatePassword($password);
     if ($validate != 0)
       return validate;
+    */
 
     $account = new Account();
     $account->createFromArray($accountData);
