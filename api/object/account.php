@@ -153,17 +153,28 @@
 
     // Takes an associative array of account data and creates the class equivalent.
     public function createFromArray ($array) {
-      $this->setId( $array['id'] );
-      $this->setEmail( $array['email'] );
-      $this->setPassword( $array['password'] );
-      $this->setFirstName( $array['firstName'] );
-      $this->setLastName( $array['lastName'] );
-      $this->setAddress( $array['address'] );
-      $this->setCity( $array['city'] );
-      $this->setState( $array['state'] );
-      $this->setZipcode( $array['zipcode'] );
-      $this->setLevel( $array['level'] );
-      $this->setKeys( $array['keys'] );
+      if (array_key_exists('id', $array))
+        $this->setId( $array['id'] );
+      if (array_key_exists('email', $array))
+        $this->setEmail( $array['email'] );
+      if (array_key_exists('password', $array))
+        $this->setPassword( $array['password'] );
+      if (array_key_exists('firstName', $array))
+        $this->setFirstName( $array['firstName'] );
+      if (array_key_exists('lastName', $array))
+        $this->setLastName( $array['lastName'] );
+      if (array_key_exists('address', $array))
+        $this->setAddress( $array['address'] );
+      if (array_key_exists('city', $array))
+        $this->setCity( $array['city'] );
+      if (array_key_exists('state', $array))
+        $this->setState( $array['state'] );
+      if (array_key_exists('zipcode', $array))
+        $this->setZipcode( $array['zipcode'] );
+      if (array_key_exists('level', $array))
+        $this->setLevel( $array['level'] );
+      if (array_key_exists('keys', $array))
+        $this->setKeys( $array['keys'] );
     }
 
     // Returns the object as an associative array.
