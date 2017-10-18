@@ -25,7 +25,7 @@ describe('Account service', function () {
     // Register account.
     $this->account = AccountService::register($this->data);
     // Copy account into update.
-    $this->update = $this->account;
+    $this->update = [];
     // Set changes.
     $this->update['firstName'] = 'testFirstName2';
     $this->update['lastName'] = 'testLastName2';
@@ -36,8 +36,8 @@ describe('Account service', function () {
 
     // Run account update.
     $this->result = AccountService::update($this->account, $this->update);
-    it('should return an array', function () {
-      // Check if result was an array.
+    it('should return an updated array', function () {
+      // Check if result was an updated array.
       $type = gettype($this->result);
       expect($type) -> toEqual('array');
 
@@ -47,6 +47,47 @@ describe('Account service', function () {
       expect ($this->result['city']) -> toEqual ($this->update['city']);
       expect ($this->result['state']) -> toEqual ($this->update['state']);
       expect ($this->result['zipcode']) -> toEqual ($this->update['zipcode']);
+    });
+  });
+
+  describe('update email', function () {
+    // Register account.
+    $this->account = AccountService::register($this->data);
+    // Set changes.
+    $this->email = 'user2@test.com';
+
+    // Run account update.
+    $this->result = AccountService::updateEmail($this->account, $this->email);
+    it('should return the email', function () {
+      // Check if result was an updated array.
+      $type = gettype($this->result);
+      expect($type) -> toEqual('array');
+
+      // Check if email was updated.
+      expect ($this->result['email']) -> toEqual ($this->email);
+    });
+  });
+
+  describe('update password', function () {
+    // Register account.
+    $this->account = AccountService::register($this->data);
+    // Set changes.
+    $this->password = 'password2';
+
+    // Run account password update.
+    $this->result = AccountService::updatePassword($this->account, $this->password);
+    
+    it('should return the account with an updated password', function () {
+      // Check if result was an updated array.
+      $type = gettype($this->result);
+      expect($type) -> toEqual('array');
+
+      // Get password hash from updated account.
+      $this->hash = $this->result['password'];
+
+      // Check if password was updated. Hash stored matches new password.
+      $this->match = AccountService::verifyPassword($this->password, $this->hash);
+      expect ($this->match) -> toEqual (true);
     });
   });
 
