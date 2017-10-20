@@ -44,7 +44,7 @@ class AccountService {
     $data['id'] = uniqid();
     $data['keys'] = [];
     // Hash password
-    $data['password'] = hash('sha512', $data['password']);
+    $data['password'] = self::hashPassword( $data['password'] );
 
     $account = new Account();
     $account->createFromArray($data);
