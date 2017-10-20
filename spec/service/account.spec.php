@@ -18,6 +18,16 @@ describe('Account service', function () {
     it('should return an array', function () {
       $type = gettype($this->result);
       expect($type) -> toEqual('array');
+
+      $passwordMatch = AccountService::verifyPassword($this->data['password'], $this->result['password']);
+      expect ($passwordMatch) -> toEqual(true);
+
+      expect ($this->result['firstName']) -> toEqual ($this->data['firstName']);
+      expect ($this->result['lastName']) -> toEqual ($this->data['lastName']);
+      expect ($this->result['address']) -> toEqual ($this->data['address']);
+      expect ($this->result['city']) -> toEqual ($this->data['city']);
+      expect ($this->result['state']) -> toEqual ($this->data['state']);
+      expect ($this->result['zipcode']) -> toEqual ($this->data['zipcode']);
     });
   });
 
@@ -76,7 +86,7 @@ describe('Account service', function () {
 
     // Run account password update.
     $this->result = AccountService::updatePassword($this->account, $this->password);
-    
+
     it('should return the account with an updated password', function () {
       // Check if result was an updated array.
       $type = gettype($this->result);
@@ -88,6 +98,15 @@ describe('Account service', function () {
       // Check if password was updated. Hash stored matches new password.
       $this->match = AccountService::verifyPassword($this->password, $this->hash);
       expect ($this->match) -> toEqual (true);
+    });
+  });
+
+  describe('verify password', function () {
+    $this->password = 'testPassword';
+    $this->hash = AccountService::hashPassword($this->password);
+    $this->verify = AccountService::verifyPassword($this->password, $this->hash);
+    it('should match the given password', function () {
+      expect($this->verify) -> toEqual(true);
     });
   });
 
