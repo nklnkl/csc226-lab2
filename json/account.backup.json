@@ -1,24 +1,11 @@
 [
     {
-        "id": 1,
+        "id": "59e62bfcaad09",
         "email": "pete@petespetshop.com",
-        "password": "sammy",
-        "firstName": "pete",
-        "lastName": "smith",
+        "password": "test",
+        "firstName": "sammy",
+        "lastName": "pete",
         "address": "1 broadway",
-        "city": "new york",
-        "state": "ny",
-        "zipcode": 10012,
-        "level": 1,
-        "keys": []
-    },
-    {
-        "id": 2,
-        "email": "niko@petespetshop.com",
-        "password": "yumi",
-        "firstName": "niko",
-        "lastName": "niko",
-        "address": "2 broadway",
         "city": "new york",
         "state": "ny",
         "zipcode": 10012,
