@@ -101,7 +101,7 @@ describe('Account service', function () {
     });
   });
 
-  describe('verify password', function () {
+  describe('hash and verify password', function () {
     $this->password = 'testPassword';
     $this->hash = AccountService::hashPassword($this->password);
     $this->verify = AccountService::verifyPassword($this->password, $this->hash);
