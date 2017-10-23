@@ -69,20 +69,14 @@ class Json {
     return
       0 - save was succcessful
       1 - resource list not found.
-      2 - failed, object with id already exists.
   */
   public static function save ($resource, $data) {
     // Retrieve resource.
     $list = self::retriveJson($resource);
     // If resource is not availabe.
     if ($list == 1) return 1;
-
-    // Iterate through list.
-    foreach($list as $i => $object) {
-      // If object with id already exists.
-      if ($object['id'] == $data['id'])
-        return 2;
-    }
+    
+    $data['id'] = uniqid();
 
     // If there is no record, add to list
     array_push($list, $data);
