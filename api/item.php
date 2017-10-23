@@ -22,6 +22,7 @@ switch ($_SERVER['REQUEST_METHOD']) {
   default:
     $status = 405;
     $header .= 'Allow: GET';
+    return;
 }
 
 // Get router.
@@ -35,6 +36,7 @@ function get () {
       break;
     default:
       $status = 400;
+      return;
   }
 }
 
