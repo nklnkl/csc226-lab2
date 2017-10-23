@@ -88,7 +88,7 @@ class AccountJson {
       0 - successful save.
       1 - resource not available, internal error.
       2 - account with email already exists, client error.
-      2 - account with id already exists, internal error.
+      3 - account with id already exists, internal error.
 
   */
   public static function save ($newAccount) {
