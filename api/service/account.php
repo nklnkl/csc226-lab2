@@ -23,14 +23,32 @@ class AccountService {
         was successfully created (volatile).
       integer
         When an integer is returned, this means that the account is missing data or invalid.
-        Refer to Account.valid() for an explanation of missing information..
+        1 - email
+        2 - password
+        3 - firstName
+        4 - lastName
+        5 - address
+        6 - city
+        7 - state
+        8 - zipcode
   */
   public static function register ($data) {
-
-    // If email is invalid.
-    // If the email is invalid.
-    if (!self::validateEmail($data['email']))
+    if (! array_key_exists('email', $data) || ! self::validateEmail($data['email']))
+      return 1;
+    if (! array_key_exists('password', $data))
       return 2;
+    if (! array_key_exists('firstName', $data))
+      return 3;
+    if (! array_key_exists('lastName', $data))
+      return 4;
+    if (! array_key_exists('address', $data))
+      return 5;
+    if (! array_key_exists('city', $data))
+      return 6;
+    if (! array_key_exists('state', $data))
+      return 7;
+    if (! array_key_exists('zipcode', $data))
+      return 8;
 
     // If the password is invalid.
     /*
@@ -41,18 +59,13 @@ class AccountService {
 
     // Set default fields.
     $data['level'] = 0;
-    $data['id'] = uniqid();
     $data['keys'] = [];
-    // Hash password
     $data['password'] = self::hashPassword( $data['password'] );
 
     $account = new Account();
     $account->createFromArray($data);
 
-    if ($account->valid() == 0)
-      return $account->toArray();
-    else
-      return $account->valid();
+    return $account->toArray();
   }
 
   /*
