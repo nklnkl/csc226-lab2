@@ -1,6 +1,9 @@
 <?php
 header('Content-type:application/json');
 
+// HTTP
+require('./http.php');
+
 // Object
 require_once(dirname(__FILE__) . '/object/account.php');
 
@@ -10,6 +13,11 @@ require_once(dirname(__FILE__) . '/service/account.php');
 
 // Database
 require_once(dirname(__FILE__) . '/json/account.php');
+
+// Initialize response.
+$status = 500;
+$body = [];
+$header = '';
 
 // Request method router.
 switch ($_SERVER['REQUEST_METHOD']) {
@@ -22,105 +30,70 @@ switch ($_SERVER['REQUEST_METHOD']) {
     post();
     break;
   default:
-    http_response_code(405);
-    header('Allow: GET, POST');
+    $status = 405;
+    $header .= 'Allow: GET, POST';
 }
 
+/*
+  error code (only if error response is returned)
+    client
+      1 - Account with email already exists.
+    service
+      1 - An email was not provided. (Client error)
+      2 - A password was not provided. (Client error)
+      3 - A first name was not provided. (Client error)
+      4 - A last name was not provided. (Client error)
+      5 - A address was not provided. (Client error)
+      6 - A city was not provided. (Client error)
+      7 - A state was not provided. (Client error)
+      8 - A zipcode was not provided. (Client error)
+    db
+      -1 - Internal server error at the service level. Not expected (Critical server error)
+      1 - Internal server error at the service level. Not expected (Critical server error)
+      2 - Account with email already exists. (Client error)
+      3 - Account with id already exists. (Server error)
+*/
 function post () {
-  $response = [];
-  $response['message'] = '';
-  $response['status'] = 500;
-
   // Get user submitted data.
   $accountData = HTTP::getJsonPost();
 
+  // Check if account with email already exists.
+  $existingAccount = AccountJson::getByEmail($accountData['email']);
+  // Client error.
+  if (gettype($existingAccount) == 'array') {
+    $status = 400;
+    $body['level'] = 'client';
+    $body['code'] = 1;
+    return;
+  }
+
   // Process account data.
-  $registerResult = AccountService::register($accountData);
-  if ( gettype($registerResult) != 'array' ) {
-    switch ($registerResult) {
-      case 1:
-        $response['message'] = 'The account does not have a valid id. This is a server error';
-        $response['status'] = 500;
-        break;
-      case 2:
-        $response['message'] = 'You did not provide an email! Please fix and try again.';
-        $response['status'] = 400;
-        break;
-      case 3:
-        $response['message'] = 'You did not provide a password! Please fix and try again.';
-        $response['status'] = 400;
-        break;
-      case 4:
-        $response['message'] = 'You did not provide a first name! Please fix and try again.';
-        $response['status'] = 400;
-        break;
-      case 5:
-        $response['message'] = 'You did not provide a last name! Please fix and try again.';
-        $response['status'] = 400;
-        break;
-      case 6:
-        $response['message'] = 'You did not provide an address! Please fix and try again.';
-        $response['status'] = 400;
-        break;
-      case 7:
-        $response['message'] = 'You did not provide a city! Please fix and try again.';
-        $response['status'] = 400;
-        break;
-      case 8:
-        $response['message'] = 'You did not provide a state! Please fix and try again.';
-        $response['status'] = 400;
-        break;
-      case 9:
-        $response['message'] = 'You did not provide a zipcode! Please fix and try again.';
-        $response['status'] = 400;
-        break;
-      case 10:
-        $response['message'] = 'The account does not have a valid account level. This is a server error';
-        $response['status'] = 500;
-        break;
-      case 11:
-        $response['message'] = 'The account does not have keys initialized. This is a server error';
-        $response['status'] = 500;
-        break;
-      default:
-        $response['message'] = 'An internal server error has occured. A team of monkey ninjas was dispatched to fix it. Try again later.';
-        $response['status'] = 500;
-    }
-    http_response_code($response['status']);
-    $response['level'] = 'service';
-    $response['code'] = $registerResult;
-    exit(json_encode($response));
+  $register = AccountService::register($accountData);
+  // Service error.
+  if ( gettype($register) != 'array' ) {
+    $status = 400;
+    $body['level'] = 'service';
+    $body['code'] = $register;
+    return;
   }
 
   // Save account data
-  $dbResult = AccountJson::save($registerResult);
-  if ($dbResult != 0) {
-    switch ($dbResult) {
-      case 1:
-        $response['message'] = 'An internal server error has occured. A team of monkey ninjas was dispatched to fix it. Try again later.';
-        $response['status'] = 500;
-        break;
-      case 2:
-        $response['message'] = 'The email address is already used! Please fix and try again.';
-        $response['status'] = 400;
-        break;
-      case 3:
-        $response['message'] = 'An internal server error has occured. A team of monkey ninjas was dispatched to fix it. Try again later.';
-        $response['status'] = 500;
-        break;
-    }
-    http_response_code($response['status']);
-    $response['level'] = 'database';
-    $response['code'] = $dbResult;
-    exit(json_encode($response));
+  $db = AccountJson::save($register);
+  // Db error.
+  if ($db != 0) {
+    if ($db == 1 || $db == 3)
+      $status = 500;
+    else
+      $status = 400;
+    $body['level'] = 'database';
+    $body['code'] = $db;
+    return;
   }
-
-  http_response_code(200);
-  $response['message'] = 'You signed up! Congrats! You can now log in.';
-  exit(json_encode($response));
+  $status = 200;
+  return;
 }
 
-// retrieve account(s)
+// Get router.
 function get () {
   switch ( count($_GET) ) {
     // retrieve accounts list
@@ -132,25 +105,38 @@ function get () {
       getCustomer();
       break;
     default:
-      http_response_code(400);
+      $status = 400;
+      return;
   }
 }
 
+// Get customer.
 function getCustomer () {
   // Retrieve account.
-  $result = getJson('account', $_GET['id']);
-  if ($result !== null) {
-    $account = new Customer();
-    $account->createFromArray($result);
-    exit($account->toJson());
+  $account = AccountJson::get($_GET['id']);
+  // if not found.
+  if (gettype($account) != 'array') {
+    $status = 404;
+    return;
   }
-  // Otherwise return not found.
-  exit(http_response_code(404));
+  $status = 200;
+  $body = $account;
+  return;
 }
 
+// Get customer list.
 function getList () {
   // Retrieve account list.
-  $list = getJson('account', null);
-  exit(json_encode($list));
+  $list = AccountJson::list();
+  // If not found.
+  if (gettype($account) != 'array') {
+    $status = 503;
+    return;
+  }
+  $status = 200;
+  $body = $list;
+  return;
 }
+
+HTTP::respond($status, $body, $header);
 ?>
