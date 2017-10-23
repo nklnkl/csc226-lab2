@@ -41,10 +41,6 @@ describe('Account object', function () {
       expect($this->account->getLevelString()) -> toEqual('customer');
     });
 
-    it('expects the account object -> valid() to return true', function () {
-      expect($this->account->valid()) -> toEqual(0);
-    });
-
     it('expects the account object -> toJson to return matching values', function () {
       // Create json string.
       $json = $this->account->toJson();
