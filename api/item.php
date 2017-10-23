@@ -1,21 +1,30 @@
 <?php
 header('Content-type:application/json');
-require_once('./json.php');
-require_once('./objects/item.php');
 
-/*
-  routes
-*/
+// Object
+require_once('./object/item.php');
 
+// Service
+
+// Database
+require_once('./json/item.php');
+
+// Initialize response.
+$status = 500;
+$body = [];
+$header = '';
+
+// Method router.
 switch ($_SERVER['REQUEST_METHOD']) {
   case 'GET':
     get();
     break;
   default:
-    http_response_code(405);
-    header('Allow: GET');
+    $status = 405;
+    $header .= 'Allow: GET';
 }
 
+// Get router.
 function get () {
   switch ( count($_GET) ) {
     case 0:
@@ -25,27 +34,37 @@ function get () {
       getItem();
       break;
     default:
-      //http_response_code(400);
+      $status = 400;
   }
 }
 
-/*
-  end points
-*/
+// Get item.
 function getItem () {
-  $list = getJson('item');
-  foreach ($list as $i) {
-    if ($_GET['id'] == $i['id']){
-      $item = new Item();
-      $item->createFromArray($i);
-      exit($item->toJson());
-    }
+  // Retrieve item.
+  $item = ItemJson::get($_GET['id']);
+  // if not found.
+  if (gettype($item) != 'array') {
+    $status = 404;
+    return;
   }
-  exit(http_response_code(404));
+  $status = 200;
+  $body = $item;
+  return;
 }
 
+// Get item list.
 function getList () {
-  $list = getJson('item');
-  exit(json_encode($list));
+  // Retrieve item list.
+  $list = ItemJson::list();
+  // If not found.
+  if (gettype($item) != 'array') {
+    $status = 503;
+    return;
+  }
+  $status = 200;
+  $body = $list;
+  return;
 }
+
+HTTP::respond($status, $body, $header);
 ?>
