@@ -107,50 +107,6 @@
       }
     }
 
-    /*
-      Checks if the this account object is valid, meaning not all fields are
-      filled out.
-
-      return
-        0 - All fields are filled out, valid.
-        1 - Missing id.
-        2 - Missing email.
-        3 - Missing password.
-        4 - Missing first name.
-        5 - Missing last name.
-        6 - Missing address.
-        7 - Missing city.
-        8 - Missing state.
-        9 - Missing zipcode.
-        10 - Missing level.
-        11 - Missing keys (even empty).
-    */
-    public function valid () {
-      if ( $this->getId() === null )
-        return 1;
-      if ( $this->getEmail() === null )
-        return 2;
-      if ( $this->getPassword() === null )
-        return 3;
-      if ( $this->getFirstName() === null )
-        return 4;
-      if ( $this->getLastName() === null )
-        return 5;
-      if ( $this->getAddress() === null )
-        return 6;
-      if ( $this->getCity() === null )
-        return 7;
-      if ( $this->getState() === null )
-        return 8;
-      if ( $this->getZipcode() === null )
-        return 9;
-      if ( $this->getLevel() === null )
-        return 10;
-      if ( $this->getKeys() === null )
-        return 11;
-      return 0;
-    }
-
     // Takes an associative array of account data and creates the class equivalent.
     public function createFromArray ($array) {
       if (array_key_exists('id', $array))
