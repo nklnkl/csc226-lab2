@@ -5,14 +5,13 @@ header('Content-type:application/json');
 require('./http.php');
 
 // Object
-require_once(dirname(__FILE__) . '/object/account.php');
+require_once('./object/account.php');
 
 // Service
-require_once(dirname(__FILE__) . '/service/http.php');
-require_once(dirname(__FILE__) . '/service/account.php');
+require_once('./service/account.php');
 
 // Database
-require_once(dirname(__FILE__) . '/json/account.php');
+require_once('./json/account.php');
 
 // Initialize response.
 $status = 500;
@@ -32,6 +31,8 @@ switch ($_SERVER['REQUEST_METHOD']) {
   default:
     $status = 405;
     $header .= 'Allow: GET, POST';
+    HTTP::respond($status, $body, $header);
+    return;
 }
 
 /*
@@ -64,6 +65,7 @@ function post () {
     $status = 400;
     $body['level'] = 'client';
     $body['code'] = 1;
+    HTTP::respond($status, $body, $header);
     return;
   }
 
@@ -74,6 +76,7 @@ function post () {
     $status = 400;
     $body['level'] = 'service';
     $body['code'] = $register;
+    HTTP::respond($status, $body, $header);
     return;
   }
 
@@ -87,9 +90,11 @@ function post () {
       $status = 400;
     $body['level'] = 'database';
     $body['code'] = $db;
+    HTTP::respond($status, $body, $header);
     return;
   }
   $status = 200;
+  HTTP::respond($status, $body, $header);
   return;
 }
 
@@ -106,6 +111,7 @@ function get () {
       break;
     default:
       $status = 400;
+      HTTP::respond($status, $body, $header);
       return;
   }
 }
@@ -117,10 +123,12 @@ function getCustomer () {
   // if not found.
   if (gettype($account) != 'array') {
     $status = 404;
+    HTTP::respond($status, $body, $header);
     return;
   }
   $status = 200;
   $body = $account;
+  HTTP::respond($status, $body, $header);
   return;
 }
 
@@ -129,14 +137,14 @@ function getList () {
   // Retrieve account list.
   $list = AccountJson::list();
   // If not found.
-  if (gettype($account) != 'array') {
+  if (gettype($list) != 'array') {
     $status = 503;
     return;
   }
   $status = 200;
   $body = $list;
+  HTTP::respond($status, $body, $header);
   return;
 }
 
-HTTP::respond($status, $body, $header);
 ?>
